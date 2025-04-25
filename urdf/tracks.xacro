@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:track name="track1_link"
+                 x1="0.035" y1="0.075" z1="-0.01"
+                 ixx="0.039881" ixy="-5.20769e-38" ixz="-2.00469e-33" iyy="0.0349931" iyz="-8.27069e-07" izz="0.00635098"
+                 x2="0.065" y2="0.075" z2="-0.01" roll2="1.5708" pitch2="1.5708" yaw2="0"/>
+
+    <xacro:joint name="track1_joint" type="fixed"
+                 x1="-0.1425" y1="0.101" z1="0.1395" roll="-1.5708" pitch="6.12323e-17" yaw="1.5708"
+                 parent_link="base_link" child_link="track1_link"/>
+
+    <xacro:track name="track2_link"
+                 x1="-0.035" y1="0.075" z1="-0.01"
+                 ixx="0.039881" ixy="-4.18825e-38" ixz="-1.5914e-33" iyy="0.0349931" iyz="-8.27069e-07" izz="0.00635098"
+                 x2="-0.005" y2="0.075" z2="-0.01" roll2="1.5708" pitch2="1.5708" yaw2="0"/>
+
+    <xacro:joint name="track2_joint" type="fixed"
+                 x1="-0.1425" y1="-0.099" z1="0.1395" roll="-1.5708" pitch="6.12323e-17" yaw="1.5708"
+                 parent_link="base_link" child_link="track2_link"/>
+
+    <gazebo reference="track1_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="track2_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+</robot>

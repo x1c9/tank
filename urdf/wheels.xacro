@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:wheel name="wheel1_link"
+                 x1="9.70538e-18" y1="-2.58663e-18" z1="0.00456292"
+                 ixx="0.000816204" ixy="3.31502e-32" ixz="-2.55255e-32" iyy="0.000816204" iyz="6.8194e-36" izz="0.00121262"
+                 x2="7.80626e-18" y2="0" z2="-0.025" roll2="-1.5708" pitch2="1.28511e-29" yaw2="-1.22465e-16"/>
+
+    <xacro:joint name="wheel1_joint" type="continuous"
+                 x1="-0.0025" y1="0.141" z1="0.0645" roll="1.5708" pitch="-1.22465e-16" yaw="-2.21867e-31"
+                 parent_link="base_link" child_link="wheel1_link"/>
+
+    <xacro:wheel name="wheel2_link"
+                 x1="-1.03393e-18" y1="-3.03781e-18" z1="0.00456292"
+                 ixx="0.000816204" ixy="1.34485e-19" ixz="-6.74429e-33" iyy="0.000816204" iyz="6.15683e-33" izz="0.00121262"
+                 x2="0" y2="0" z2="-0.025" roll2="-1.5708" pitch2="-2.19066e-29" yaw2="-0.961372"/>
+
+    <xacro:joint name="wheel2_joint" type="continuous"
+                 x1="-0.2625" y1="0.141" z1="0.0645" roll="1.5708" pitch="-1.22465e-16" yaw="-2.21867e-31"
+                 parent_link="base_link" child_link="wheel2_link"/>
+
+    <xacro:wheel name="wheel3_link"
+                 x1="8.31597e-18" y1="-3.65218e-18" z1="0.00456292"
+                 ixx="0.000816204" ixy="8.11663e-20" ixz="-5.55474e-20" iyy="0.000816204" iyz="1.77115e-19" izz="0.00121262"
+                 x2="1.12757e-17" y2="-1.38778e-17" z2="-0.025" roll2="-1.5708" pitch2="-2.48623e-16" yaw2="-0.25582"/>
+
+    <xacro:joint name="wheel3_joint" type="continuous"
+                 x1="-0.0025" y1="-0.139" z1="0.0645" roll="-1.5708" pitch="-1.22465e-16" yaw="-2.21867e-31"
+                 parent_link="base_link" child_link="wheel3_link"/>
+
+    <xacro:wheel name="wheel4_link"
+                 x1="3.14237e-18" y1="-1.32276e-17" z1="0.00456292"
+                 ixx="0.000816204" ixy="-1.48259e-19" ixz="-3.96057e-26" iyy="0.000816204" iyz="7.24415e-27" izz="0.00121262"
+                 x2="0" y2="-1.38778e-17" z2="-0.025" roll2="-1.5708" pitch2="-2.49678e-23" yaw2="1.14152"/>
+
+    <xacro:joint name="wheel4_joint" type="continuous"
+                 x1="-0.2625" y1="-0.139" z1="0.0645" roll="-1.5708" pitch="-1.22465e-16" yaw="-2.21867e-31"
+                 parent_link="base_link" child_link="wheel4_link"/>
+
+    <gazebo reference="wheel1_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="wheel2_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="wheel3_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="wheel4_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+</robot>

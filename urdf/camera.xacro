@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:link name="camera"
+                x1="8.63869e-19" y1="-0.000645903" z1="-0.00126913" mass="0.00147364"
+                ixx="7.56624e-08" ixy="-1.5923e-41" ixz="1.64229e-39" iyy="7.05662e-08" iyz="-2.12341e-09" izz="1.43344e-07"
+                x2="1.95156e-18" y2="0" z2="0" roll2="3.14159" pitch2="-7.4988e-33" yaw2="0"
+                r="0" g="1.0" b="0" a="1.0"/>
+
+    <xacro:joint name="camera_pose" type="fixed"
+                 x1="-0.2815" y1="0.001" z1="0.0995" roll="-1.5708" pitch="-6.12323e-17" yaw="-1.5708"
+                 parent_link="base_link" child_link="camera"/>
+
+    <gazebo reference="camera">
+        <material>Gazebo/Green</material>
+    </gazebo>
+</robot>

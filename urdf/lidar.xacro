@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:link name="lidar"
+                x1="0.00219031" y1="-1.11035e-18" z1="-0.0123115" mass="0.0941187"
+                ixx="3.50997e-05" ixy="2.44321e-52" ixz="5.54226e-07" iyy="2.94944e-05" iyz="7.06233e-54" izz="5.46193e-05"
+                x2="0" y2="2.1684e-18" z2="0" roll2="3.14159" pitch2="0" yaw2="1.27427e-47"
+                r="0" g="0" b="0" a="1.0"/>
+
+    <xacro:joint name="lidar_pose" type="fixed"
+                 x1="-0.0625" y1="0.001" z1="0.1385" roll="-3.14159" pitch="1.22465e-16" yaw="3.14159"
+                 parent_link="base_link" child_link="lidar"/>
+
+    <gazebo reference="lidar">
+        <material>Gazebo/Black</material>
+    </gazebo>
+</robot>
