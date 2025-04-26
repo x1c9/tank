@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="macros">
     <xacro:macro name="wheel" params="name x1 y1 z1
                                       ixx ixy ixz iyy iyz izz
                                       x2 y2 z2 roll2 pitch2 yaw2">
@@ -12,7 +12,7 @@
             <visual>
                 <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
                 <geometry>
-                    <mesh filename="$(find tank)/meshes/tank/wheel.stl"/>
+                    <mesh filename="package://tank/meshes/tank/wheel.stl"/>
                 </geometry>
                 <material name="${name}_material">
                     <color rgba="0.1 0.1 0.1 1.0"/>
@@ -21,7 +21,7 @@
             <collision>
                 <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
                 <geometry>
-                    <mesh filename="$(find tank)/meshes/tank/wheel.stl"/>
+                    <mesh filename="package://tank/meshes/tank/wheel.stl"/>
                 </geometry>
             </collision>
         </link>
@@ -39,7 +39,7 @@
             <visual>
                 <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
                 <geometry>
-                    <mesh filename="$(find tank)/meshes/tank/track.stl"/>
+                    <mesh filename="package://tank/meshes/tank/track.stl"/>
                 </geometry>
                 <material name="${name}_material">
                     <color rgba="0.1 0.1 0.1 1.0"/>
@@ -48,7 +48,7 @@
             <collision>
                 <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
                 <geometry>
-                    <mesh filename="$(find tank)/meshes/tank/track.stl"/>
+                    <mesh filename="package://tank/meshes/tank/track.stl"/>
                 </geometry>
             </collision>
         </link>
@@ -68,10 +68,10 @@
                 <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
                 <geometry>
                     <xacro:if value="${name == 'base_link'}">
-                        <mesh filename="$(find tank)/meshes/tank/chassis.stl"/>
+                        <mesh filename="package://tank/meshes/tank/chassis.stl"/>
                     </xacro:if>
                     <xacro:if value="${name == 'camera' or name == 'lidar'}">
-                        <mesh filename="$(find tank)/meshes/tank/${name}.stl"/>
+                        <mesh filename="package://tank/meshes/tank/${name}.stl"/>
                     </xacro:if>
                 </geometry>
                 <material name="${name}_material">
@@ -82,10 +82,10 @@
                 <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
                 <geometry>
                     <xacro:if value="${name == 'base_link'}">
-                        <mesh filename="$(find tank)/meshes/tank/chassis.stl"/>
+                        <mesh filename="package://tank/meshes/tank/chassis.stl"/>
                     </xacro:if>
                     <xacro:if value="${name == 'camera' or name == 'lidar'}">
-                        <mesh filename="$(find tank)/meshes/tank/${name}.stl"/>
+                        <mesh filename="package://tank/meshes/tank/${name}.stl"/>
                     </xacro:if>
                 </geometry>
             </collision>

@@ -1,9 +1,259 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:include filename="macros.xacro"/>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="tank">
+    <!-- <xacro:include filename="macros.xacro"/>
     <xacro:include filename="chassis.xacro"/>
     <xacro:include filename="camera.xacro"/>
     <xacro:include filename="lidar.xacro"/>
     <xacro:include filename="tracks.xacro"/>
-    <xacro:include filename="wheels.xacro"/>
+    <xacro:include filename="wheels.xacro"/> -->
+
+    <xacro:macro name="wheel" params="name x1 y1 z1
+                                      ixx ixy ixz iyy iyz izz
+                                      x2 y2 z2 roll2 pitch2 yaw2">
+        <link name="${name}">
+            <inertial>
+                <origin xyz="${x1} ${y1} ${z1}" rpy="0 0 0"/>
+                <mass value="0.700837"/>
+                <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
+            </inertial>
+            <visual>
+                <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
+                <geometry>
+                    <mesh filename="package://tank/meshes/tank/wheel.stl"/>
+                </geometry>
+                <material name="${name}_material">
+                    <color rgba="0.1 0.1 0.1 1.0"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
+                <geometry>
+                    <mesh filename="package://tank/meshes/tank/wheel.stl"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="track" params="name x1 y1 z1
+                                      ixx ixy ixz iyy iyz izz
+                                      x2 y2 z2 roll2 pitch2 yaw2">
+        <link name="${name}">
+            <inertial>
+                <origin xyz="${x1} ${y1} ${z1}" rpy="0 0 0"/>
+                <mass value="2.4385"/>
+                <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
+            </inertial>
+            <visual>
+                <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
+                <geometry>
+                    <mesh filename="package://tank/meshes/tank/track.stl"/>
+                </geometry>
+                <material name="${name}_material">
+                    <color rgba="0.1 0.1 0.1 1.0"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
+                <geometry>
+                    <mesh filename="package://tank/meshes/tank/track.stl"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="link" params="name x1 y1 z1 mass
+                                     ixx ixy ixz iyy iyz izz
+                                     x2 y2 z2 roll2 pitch2 yaw2
+                                     r g b a">
+        <link name="${name}">
+            <inertial>
+                <origin xyz="${x1} ${y1} ${z1}" rpy="0 0 0"/>
+                <mass value="${mass}"/>
+                <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}" iyy="${iyy}" iyz="${iyz}" izz="${izz}"/>
+            </inertial>
+            <visual>
+                <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
+                <geometry>
+                    <xacro:if value="${name == 'base_link'}">
+                        <mesh filename="package://tank/meshes/tank/chassis.stl"/>
+                    </xacro:if>
+                    <xacro:if value="${name == 'camera' or name == 'lidar'}">
+                        <mesh filename="package://tank/meshes/tank/${name}.stl"/>
+                    </xacro:if>
+                </geometry>
+                <material name="${name}_material">
+                    <color rgba="${r} ${g} ${b} ${a}"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="${x2} ${y2} ${z2}" rpy="${roll2} ${pitch2} ${yaw2}"/>
+                <geometry>
+                    <xacro:if value="${name == 'base_link'}">
+                        <mesh filename="package://tank/meshes/tank/chassis.stl"/>
+                    </xacro:if>
+                    <xacro:if value="${name == 'camera' or name == 'lidar'}">
+                        <mesh filename="package://tank/meshes/tank/${name}.stl"/>
+                    </xacro:if>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="joint" params="name type x1 y1 z1 roll pitch yaw
+                                      parent_link child_link
+                                      effort:=10 velocity:=10 lower:=0 upper:=0">
+        <joint name="${name}" type="${type}">
+            <dynamics damping="0.1"/>
+            <origin xyz="${x1} ${y1} ${z1}" rpy="${roll} ${pitch} ${yaw}"/>
+            <parent link="${parent_link}"/>
+            <child link="${child_link}"/>
+            <axis xyz="0 0 1"/>
+            <xacro:if value="${type == 'revolute' or type == 'prismatic'}">
+                <limit effort="${effort}" velocity="${velocity}" lower="${lower}" upper="${upper}"/>
+            </xacro:if>
+            <xacro:if value="${type == 'continuous'}">
+                <limit effort="${effort}" velocity="${velocity}"/>
+            </xacro:if>
+        </joint>
+    </xacro:macro>
+
+    <xacro:link name="base_link"
+                x1="-0.134213" y1="0.001" z1="0.0891435" mass="7.44828"
+                ixx="0.0324051" ixy="3.49985e-18" ixz="0.000477967" iyy="0.0607446" iyz="1.18871e-18" izz="0.0811136"
+                x2="-0.1325" y2="0.001" z2="0.0395" roll2="-6.12323e-17" pitch2="-1.22465e-16" yaw2="-1.22465e-16"
+                r="0.175" g="0.175" b="0.175" a="1.0"/>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/DarkGray</material>
+    </gazebo>
+
+    <xacro:wheel name="wheel1_link"
+                 x1="9.70538e-18" y1="-2.58663e-18" z1="0.00456292"
+                 ixx="0.000816204" ixy="3.31502e-32" ixz="-2.55255e-32" iyy="0.000816204" iyz="6.8194e-36" izz="0.00121262"
+                 x2="7.80626e-18" y2="0" z2="-0.025" roll2="-1.5708" pitch2="1.28511e-29" yaw2="-1.22465e-16"/>
+
+    <xacro:joint name="wheel1_joint" type="continuous"
+                 x1="-0.0025" y1="0.141" z1="0.0645" roll="1.5708" pitch="-1.22465e-16" yaw="-2.21867e-31"
+                 parent_link="base_link" child_link="wheel1_link"/>
+
+    <xacro:wheel name="wheel2_link"
+                 x1="-1.03393e-18" y1="-3.03781e-18" z1="0.00456292"
+                 ixx="0.000816204" ixy="1.34485e-19" ixz="-6.74429e-33" iyy="0.000816204" iyz="6.15683e-33" izz="0.00121262"
+                 x2="0" y2="0" z2="-0.025" roll2="-1.5708" pitch2="-2.19066e-29" yaw2="-0.961372"/>
+
+    <xacro:joint name="wheel2_joint" type="continuous"
+                 x1="-0.2625" y1="0.141" z1="0.0645" roll="1.5708" pitch="-1.22465e-16" yaw="-2.21867e-31"
+                 parent_link="base_link" child_link="wheel2_link"/>
+
+    <xacro:wheel name="wheel3_link"
+                 x1="8.31597e-18" y1="-3.65218e-18" z1="0.00456292"
+                 ixx="0.000816204" ixy="8.11663e-20" ixz="-5.55474e-20" iyy="0.000816204" iyz="1.77115e-19" izz="0.00121262"
+                 x2="1.12757e-17" y2="-1.38778e-17" z2="-0.025" roll2="-1.5708" pitch2="-2.48623e-16" yaw2="-0.25582"/>
+
+    <xacro:joint name="wheel3_joint" type="continuous"
+                 x1="-0.0025" y1="-0.139" z1="0.0645" roll="-1.5708" pitch="-1.22465e-16" yaw="-2.21867e-31"
+                 parent_link="base_link" child_link="wheel3_link"/>
+
+    <xacro:wheel name="wheel4_link"
+                 x1="3.14237e-18" y1="-1.32276e-17" z1="0.00456292"
+                 ixx="0.000816204" ixy="-1.48259e-19" ixz="-3.96057e-26" iyy="0.000816204" iyz="7.24415e-27" izz="0.00121262"
+                 x2="0" y2="-1.38778e-17" z2="-0.025" roll2="-1.5708" pitch2="-2.49678e-23" yaw2="1.14152"/>
+
+    <xacro:joint name="wheel4_joint" type="continuous"
+                 x1="-0.2625" y1="-0.139" z1="0.0645" roll="-1.5708" pitch="-1.22465e-16" yaw="-2.21867e-31"
+                 parent_link="base_link" child_link="wheel4_link"/>
+
+    <gazebo reference="wheel1_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="wheel2_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="wheel3_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="wheel4_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <xacro:track name="track1_link"
+                 x1="0.035" y1="0.075" z1="-0.01"
+                 ixx="0.039881" ixy="-5.20769e-38" ixz="-2.00469e-33" iyy="0.0349931" iyz="-8.27069e-07" izz="0.00635098"
+                 x2="0.065" y2="0.075" z2="-0.01" roll2="1.5708" pitch2="1.5708" yaw2="0"/>
+
+    <xacro:joint name="track1_joint" type="fixed"
+                 x1="-0.1425" y1="0.101" z1="0.1395" roll="-1.5708" pitch="6.12323e-17" yaw="1.5708"
+                 parent_link="base_link" child_link="track1_link"/>
+
+    <xacro:track name="track2_link"
+                 x1="-0.035" y1="0.075" z1="-0.01"
+                 ixx="0.039881" ixy="-4.18825e-38" ixz="-1.5914e-33" iyy="0.0349931" iyz="-8.27069e-07" izz="0.00635098"
+                 x2="-0.005" y2="0.075" z2="-0.01" roll2="1.5708" pitch2="1.5708" yaw2="0"/>
+
+    <xacro:joint name="track2_joint" type="fixed"
+                 x1="-0.1425" y1="-0.099" z1="0.1395" roll="-1.5708" pitch="6.12323e-17" yaw="1.5708"
+                 parent_link="base_link" child_link="track2_link"/>
+
+    <gazebo reference="track1_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <gazebo reference="track2_link">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+
+    <xacro:link name="camera"
+                x1="8.63869e-19" y1="-0.000645903" z1="-0.00126913" mass="0.00147364"
+                ixx="7.56624e-08" ixy="-1.5923e-41" ixz="1.64229e-39" iyy="7.05662e-08" iyz="-2.12341e-09" izz="1.43344e-07"
+                x2="1.95156e-18" y2="0" z2="0" roll2="3.14159" pitch2="-7.4988e-33" yaw2="0"
+                r="0" g="1.0" b="0" a="1.0"/>
+
+    <xacro:joint name="camera_pose" type="fixed"
+                 x1="-0.2815" y1="0.001" z1="0.0995" roll="-1.5708" pitch="-6.12323e-17" yaw="-1.5708"
+                 parent_link="base_link" child_link="camera"/>
+
+    <gazebo reference="camera">
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <xacro:link name="lidar"
+                x1="0.00219031" y1="-1.11035e-18" z1="-0.0123115" mass="0.0941187"
+                ixx="3.50997e-05" ixy="2.44321e-52" ixz="5.54226e-07" iyy="2.94944e-05" iyz="7.06233e-54" izz="5.46193e-05"
+                x2="0" y2="2.1684e-18" z2="0" roll2="3.14159" pitch2="0" yaw2="1.27427e-47"
+                r="0" g="0" b="0" a="1.0"/>
+
+    <xacro:joint name="lidar_pose" type="fixed"
+                 x1="-0.0625" y1="0.001" z1="0.1385" roll="-3.14159" pitch="1.22465e-16" yaw="3.14159"
+                 parent_link="base_link" child_link="lidar"/>
+
+    <gazebo reference="lidar">
+        <material>Gazebo/Black</material>
+        <sensor name="laser" type="ray">
+            <visualize>true</visualize>
+            <update_rate>30</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1</resolution>
+                        <min_angle>0</min_angle>
+                        <max_angle>6.28319</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.12</min>
+                    <max>10</max>
+                    <resolution>0.015</resolution>
+                </range>
+            </ray>
+            <plugin name="ros_ray_sensor_controller" filename="libgazebo_ros_laser.so">
+                <topicName>scan</topicName>
+                <frameName>lidar</frameName>
+                <gaussianNoise>0.01</gaussianNoise>
+            </plugin>
+        </sensor>
+    </gazebo>
 </robot>

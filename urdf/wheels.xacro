@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wheels">
     <xacro:wheel name="wheel1_link"
                  x1="9.70538e-18" y1="-2.58663e-18" z1="0.00456292"
                  ixx="0.000816204" ixy="3.31502e-32" ixz="-2.55255e-32" iyy="0.000816204" iyz="6.8194e-36" izz="0.00121262"

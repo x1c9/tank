@@ -12,5 +12,29 @@
 
     <gazebo reference="lidar">
         <material>Gazebo/Black</material>
+        <sensor name="laser" type="ray">
+            <visualize>true</visualize>
+            <update_rate>30</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1</resolution>
+                        <min_angle>0</min_angle>
+                        <max_angle>6.28319</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.12</min>
+                    <max>10</max>
+                    <resolution>0.015</resolution>
+                </range>
+            </ray>
+            <plugin name="ros_ray_sensor_controller" filename="libgazebo_ros_laser.so">
+                <topicName>scan</topicName>
+                <frameName>lidar</frameName>
+                <gaussianNoise>0.01</gaussianNoise>
+            </plugin>
+        </sensor>
     </gazebo>
 </robot>
