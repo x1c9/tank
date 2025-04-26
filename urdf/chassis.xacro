@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="chassis">
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:link name="base_link"
                 x1="-0.134213" y1="0.001" z1="0.0891435" mass="7.44828"
                 ixx="0.0324051" ixy="3.49985e-18" ixz="0.000477967" iyy="0.0607446" iyz="1.18871e-18" izz="0.0811136"

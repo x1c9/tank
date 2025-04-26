@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="macros">
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:macro name="wheel" params="name x1 y1 z1
                                       ixx ixy ixz iyy iyz izz
                                       x2 y2 z2 roll2 pitch2 yaw2">

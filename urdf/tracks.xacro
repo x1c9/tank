@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="tracks">
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:track name="track1_link"
                  x1="0.035" y1="0.075" z1="-0.01"
                  ixx="0.039881" ixy="-5.20769e-38" ixz="-2.00469e-33" iyy="0.0349931" iyz="-8.27069e-07" izz="0.00635098"
