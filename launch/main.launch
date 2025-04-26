@@ -1,14 +1,15 @@
 <launch>
-  <arg name="world_file" default="$(find tank)/worlds/hello.world"/>
-  <node name="gazebo" pkg="gazebo_ros" type="gazebo" args="-u -s libgazebo_ros_factory.so $(arg world_file)" output="screen"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find tank)/worlds/hello.world"/>
+  </include>
 
-  <param name="robot_description" command="$(find xacro)/xacro $(find tank)/urdf/tank.urdf.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find tank)/urdf/tank.urdf.xacro"/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
 
-  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" 
-        args="-urdf -model tank -param robot_description"
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -model tank -param robot_description -x 0 -y 0 -z 0"
         respawn="false" output="screen"/>
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tank)/rviz/display.rviz" required="true"/>
