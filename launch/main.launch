@@ -2,7 +2,6 @@
   <arg name="world_file" default="$(find tank)/worlds/hello.world"/>
   <node name="gazebo" pkg="gazebo_ros" type="gazebo" args="-u -s libgazebo_ros_factory.so $(arg world_file)" output="screen"/>
 
-  <param name="/use_sim_time" value="true"/>
   <param name="robot_description" command="$(find xacro)/xacro $(find tank)/urdf/tank.urdf.xacro"/>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
