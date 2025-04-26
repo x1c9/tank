@@ -1,4 +1,6 @@
 <launch>
+  <rosparam command="load" file="$(find tank)/param/controller.yaml"/>
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find tank)/worlds/hello.world"/>
   </include>
@@ -13,4 +15,7 @@
         respawn="false" output="screen"/>
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tank)/rviz/display.rviz" required="true"/>
+
+  <node name="base_controller_spawner" pkg="controller_manager" type="spawner"
+        respawn="true" output="screen" args="diff_drive_controller"/>
 </launch>
